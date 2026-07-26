@@ -1,0 +1,1 @@
+public interface ZoneProvider {int getTerrainType(int worldX, int worldY);}

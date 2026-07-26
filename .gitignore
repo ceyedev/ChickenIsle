@@ -1,0 +1,13 @@
+*.class
+*.ctxt
+
+doc/
+
+bluej.pkg
+bluej.pkh
+
+.DS_Store
+Thumbs.db
+
+.idea/
+.vscode/

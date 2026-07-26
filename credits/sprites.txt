@@ -1,0 +1,6 @@
+Sprites used in this game:
+- Backgrounds from craftpix.net
+- Tiles from https://ipixl.itch.io/pixel-art-16x16-nature-tiles
+- Player from https://elvgames.itch.io/free-retro-game-world-sprites
+
+UI Inspired by: https://snowhex.itch.io/dungeon-gathering-ui-hud-expansion
