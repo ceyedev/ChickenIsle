@@ -9,7 +9,7 @@ import java.net.URI;
 
 public class MainMenu extends World
 {
-    private double baseSpeed = 2.0; //px per act()
+    private double baseSpeed = 2.0;
     private String emptyImagePath = "Parallax/empty.png";
 
     private static Config[] configurations = {
@@ -267,151 +267,158 @@ public class MainMenu extends World
             currentUI.remove(rem);
         }
 
-        long syncTime = System.currentTimeMillis();
+        long syncTime;
+
+        String[] playBtnSounds = new String[]{null, "sfx/ui/hover.mp3", null, "sfx/ui/play.mp3"};
+        String[] creditsBtnSounds = new String[]{null, "sfx/ui/hover.mp3", null, "sfx/ui/double-click.mp3"};
+        String[] ceyeBtnSounds = new String[]{null, "sfx/ui/snap.mp3", null, "sfx/ui/reaction.mp3"};
+        String[] bootBtnSounds = new String[]{null, null, null, "sfx/ui/connect.mp3"};
+        String[] quietBtnSounds = new String[]{null, null, null, "sfx/boot-sound.mp3"};
+        String[] normalBtnSounds = new String[]{null, "sfx/ui/hover.mp3", null, "sfx/ui/press.mp3"};
+        String[] backBtnSounds = new String[]{null, "sfx/ui/back.mp3", null, "sfx/ui/cancel.mp3"};
+        String[] nextBtnSounds = new String[]{null, "sfx/ui/hover.mp3", null, "sfx/ui/skip-next.mp3"};
+        String[] startBtnSounds = new String[]{null, "sfx/ui/focus.mp3", null, "sfx/ui/reward.mp3"};
 
         switch (newMenu) {
             case CurrentMenu.ClickToEnter:
             {
                 Image bg = new Image("BootAnim/BlackBG.png", 1, 0.2);
-                addUI(bg, 320, 320);
+                Button startBtn = new Button("BootAnim/TapToFocus.png", 1, true, 1, 1, 1, 1, 1, quietBtnSounds);
 
-                Button startBtn = new Button("BootAnim/TapToFocus.png", 1, true, 1, 1, 1, 1, 1);
-                startBtn.setOnClick(() -> SelectPanel(CurrentMenu.BootScreen));
+                addUI(bg, 320, 320);
                 addUI(startBtn, 320, 320);
 
+                startBtn.setOnClick(() -> { SelectPanel(CurrentMenu.BootScreen); Greenfoot.playSound("sfx/ui/startgame.mp3");});
+
+                syncTime = System.currentTimeMillis();
                 break;
             }
             case CurrentMenu.BootScreen:
             {
                 Image bg = new Image("BootAnim/BlackBG.png", 1, 0.2);
-                bg.fadeTo(0, 1000, 3200, syncTime);
-                addUI(bg, 320, 320);
-
                 Image Outline = new Image("BootAnim/Outline.png", 4, 0);
+                Image Cloud = new Image("BootAnim/Cloud.png", 0, 0);
+                Image Title = new Image("BootAnim/Title.png", 0.5, 0);
+                Image ChickenText = new Image("BootAnim/ChickenText.png", 5, 0);
+                Image IsleText = new Image("BootAnim/IsleText.png", 5, 0);
+                Image WingShadow = new Image("BootAnim/WingShadow.png", 0, 0);
+                Image Wing = new Image("BootAnim/Wing.png", 2, 0);
+                Image TapToStart = new Image("BootAnim/TapToStart.png", 0.95, 0);
+                Image Crown = new Image("BootAnim/Crown.png", 0, 0);
+                Button startBtn = new Button("BootAnim/BlackBG.png", 0, true, 0, 1, 1, 1, 1, bootBtnSounds);
+
+                addUI(bg, 320, 320);
+                addUI(Outline, 320, 180);
+                addUI(Cloud, 320, 320);
+                addUI(Title, 320, 320);
+                addUI(ChickenText, 320, 320);
+                addUI(IsleText, 320, 320);
+                addUI(WingShadow, 320, 320);
+                addUI(Wing, 320, 320);
+                addUI(TapToStart, 320, 565);
+                addUI(Crown, 264, 106);
+                addUI(startBtn, 320, 320);
+
+                startBtn.setOnClick(() -> SelectPanel(CurrentMenu.MainMenu));
+
+                syncTime = System.currentTimeMillis();
+
+                bg.fadeTo(0, 1000, 3200, syncTime);
                 Outline.bounceTo(2, 18, 2, 3200, syncTime);
                 Outline.fadeTo(1, 500, 3200, syncTime);
-                addUI(Outline, 320, 180);
-
-                Image Cloud = new Image("BootAnim/Cloud.png", 0, 0);
                 Cloud.bounceTo(1, 8, 1, 900 + 800, syncTime);
                 Cloud.fadeTo(1, 500, 900 + 800, syncTime);
-                addUI(Cloud, 320, 320);
-
-                Image Title = new Image("BootAnim/Title.png", 0.5, 0);
                 Title.bounceTo(1, 15, 2.5, 100 + 500, syncTime);
                 Title.fadeTo(1, 800, 100 + 500, syncTime);
-                addUI(Title, 320, 320);
-
-                Image ChickenText = new Image("BootAnim/ChickenText.png", 5, 0);
                 ChickenText.bounceTo(1, 15, 2.5, 750 + 800, syncTime);
                 ChickenText.fadeTo(1, 400, 750 + 800, syncTime);
-                addUI(ChickenText, 320, 320);
-
-                Image IsleText = new Image("BootAnim/IsleText.png", 5, 0);
                 IsleText.bounceTo(1, 15, 2.5, 1100 + 800, syncTime);
                 IsleText.fadeTo(1, 400, 1100 + 800, syncTime);
-                addUI(IsleText, 320, 320);
-
-                Image WingShadow = new Image("BootAnim/WingShadow.png", 0, 0);
                 WingShadow.bounceTo(1, 15, 2, 1700 + 800, syncTime);
                 WingShadow.fadeTo(1, 400, 1700 + 800, syncTime);
-                addUI(WingShadow, 320, 320);
-
-                Image Wing = new Image("BootAnim/Wing.png", 2, 0);
                 Wing.bounceTo(1, 12, 3, 1500 + 800, syncTime);
                 Wing.fadeTo(1, 400, 1500 + 800, syncTime);
-                addUI(Wing, 320, 320);
-
-                Image TapToStart = new Image("BootAnim/TapToStart.png", 0.95, 0);
                 TapToStart.bounceTo(1, 0, 0.25, 4000 + 800, syncTime);
                 TapToStart.fadeTo(1, 1000, 4000 + 800, syncTime);
-                addUI(TapToStart, 320, 565);
-
-                Image Crown = new Image("BootAnim/Crown.png", 0, 0);
                 Crown.bounceTo(1, 8, 10, 2000 + 800, syncTime);
                 Crown.fadeTo(1, 500, 2000 + 800, syncTime);
-                addUI(Crown, 264, 106);
-
-                Button startBtn = new Button("BootAnim/BlackBG.png", 0, true, 0, 1, 1, 1, 1);
-                startBtn.setOnClick(() -> SelectPanel(CurrentMenu.MainMenu));
-                addUI(startBtn, 320, 320);
 
                 break;
             }
             case CurrentMenu.MainMenu:
             {
                 Image bg = new Image("MainMenuBG.png", 0, 0);
+                Button playBtn = new Button("PlayButton.png", 0, true, 0, 0, 6, 1.05, 0.95, playBtnSounds);
+                Button optionsBtn = new Button("OptionsButton.png", 0, true, 200, 0, 6, 1.05, 0.95, nextBtnSounds);
+                Button creditsBtn = new Button("CreditsButton.png", 0, true, 0, 0, 6, 1.05, 0.95, nextBtnSounds);
+
+                addUI(bg, 320, 320);
+                addUI(playBtn, 320, 200);
+                addUI(optionsBtn, 320, 353);
+                addUI(creditsBtn, 320, 467);
+
+                playBtn.setOnClick(() -> SelectPanel(CurrentMenu.SaveMenu));
+                optionsBtn.setOnClick(() -> System.out.println("Button wurde geklickt!"));
+                creditsBtn.setOnClick(() -> SelectPanel(CurrentMenu.Credits));
+
+                syncTime = System.currentTimeMillis();
+
                 bg.bounceTo(6, 15, 2.5, 100, syncTime);
                 bg.fadeTo(1, 400, 100, syncTime); 
-                addUI(bg, 320, 320);
-
-                Button playBtn = new Button("PlayButton.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                playBtn.setOnClick(() -> SelectPanel(CurrentMenu.SaveMenu));
                 playBtn.bounceTo(1, 7, 2);
                 playBtn.fadeTo(1, 400);
-                addUI(playBtn, 320, 200);
-
-                Button optionsBtn = new Button("OptionsButton.png", 0, true, 200, 0, 6, 1.05, 0.95);
-                optionsBtn.setOnClick(() -> System.out.println("Button wurde geklickt!"));
                 optionsBtn.bounceTo(1, 10, 2.5, 300, syncTime);
                 optionsBtn.fadeTo(1, 600, 300, syncTime);
-                addUI(optionsBtn, 320, 353);
-
-                Button creditsBtn = new Button("CreditsButton.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                creditsBtn.setOnClick(() -> SelectPanel(CurrentMenu.Credits));
                 creditsBtn.bounceTo(1, 10, 2.5, 500, syncTime);
                 creditsBtn.fadeTo(1, 600, 500, syncTime);
-                addUI(creditsBtn, 320, 467);
 
                 break;
             }
             case CurrentMenu.CharacterSelector:
             {
                 Image bg = new Image("CharacterSelector.png", 0, 0);
-                bg.bounceTo(6, 12, 2.5, 0, syncTime);
-                bg.fadeTo(1, 400, 0, syncTime); 
-                addUI(bg, 320, 320);
-
                 Image csnBg = new Image("CharacterSelectorNature.png", 0, 0);
-                csnBg.bounceTo(6, 12, 2.5, 0, syncTime);
-                csnBg.fadeTo(1, 200, 300, syncTime); 
-                addUI(csnBg, 320, 275);
-
                 playerSelectorIndex = new Image("SelectedCharacterIndexActive.png", 6, 0);
-                playerSelectorIndex.fadeTo(1, 500, 300, syncTime); 
-                addUI(playerSelectorIndex, 215 + currentSelectedPlayer* 30, 164);
-
                 playerSelectorSprite = new Image("Player/" + currentSelectedPlayer + "/ib1.png", 0, 0);
-                playerSelectorSprite.bounceTo(6, 9, 3, 400, syncTime);
-                playerSelectorSprite.fadeTo(1, 400, 400, syncTime); 
-                int[] counter = {currentSelectedPlayer};
-                Image[] psimage = {playerSelectorSprite};
+                Button selectBtn = new Button("SelectButton.png", 0, true, 0, 0, 6, 1.05, 0.95, startBtnSounds);
+                Button leftBtn = new Button("ButtonLeft.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button rightBtn = new Button("ButtonRight.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+
+                addUI(bg, 320, 320);
+                addUI(csnBg, 320, 275);
+                addUI(playerSelectorIndex, 215 + currentSelectedPlayer* 30, 164);
                 addUI(playerSelectorSprite, 320 - 3, 290);
-
-                Button selectBtn = new Button("SelectButton.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                selectBtn.setOnClick(() -> Greenfoot.setWorld(new GameWorld(currentSelectedPlayer, currentSelectedWorld)));
-                selectBtn.bounceTo(1, 8, 2.5, 200, syncTime);
-                selectBtn.fadeTo(1, 400, 200, syncTime); 
                 addUI(selectBtn, 320, 431);
-
-                Button leftBtn = new Button("ButtonLeft.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                leftBtn.setOnClick(() -> ChangeCurrentPlayer(-1));
-                leftBtn.bounceTo(1, 8, 3, 300, syncTime);
-                leftBtn.fadeTo(1, 400, 300, syncTime); 
                 addUI(leftBtn, 134, 278);
-
-                Button rightBtn = new Button("ButtonRight.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                rightBtn.setOnClick(() -> ChangeCurrentPlayer(1));
-                rightBtn.bounceTo(1, 8, 3, 400, syncTime);
-                rightBtn.fadeTo(1, 400, 400, syncTime); 
                 addUI(rightBtn, 506, 278);
-
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95);
-                backBtn.setOnClick(() -> SelectPanel(CurrentMenu.WorldSelector));
-                backBtn.bounceTo(1.0, 10, 2.5);
-                backBtn.fadeTo(1, 1000);
                 addUI(backBtn, 75, 602);
 
+                selectBtn.setOnClick(() -> Greenfoot.setWorld(new GameWorld(currentSelectedPlayer, currentSelectedWorld)));
+                leftBtn.setOnClick(() -> ChangeCurrentPlayer(-1));
+                rightBtn.setOnClick(() -> ChangeCurrentPlayer(1));
+                backBtn.setOnClick(() -> SelectPanel(CurrentMenu.WorldSelector));
+
+                syncTime = System.currentTimeMillis();
+
+                bg.bounceTo(6, 12, 2.5, 0, syncTime);
+                bg.fadeTo(1, 400, 0, syncTime); 
+                csnBg.bounceTo(6, 12, 2.5, 0, syncTime);
+                csnBg.fadeTo(1, 200, 300, syncTime); 
+                playerSelectorIndex.fadeTo(1, 500, 300, syncTime);
+                playerSelectorSprite.bounceTo(6, 9, 3, 400, syncTime);
+                playerSelectorSprite.fadeTo(1, 400, 400, syncTime); 
+                selectBtn.bounceTo(1, 8, 2.5, 200, syncTime);
+                selectBtn.fadeTo(1, 400, 200, syncTime); 
+                leftBtn.bounceTo(1, 8, 3, 300, syncTime);
+                leftBtn.fadeTo(1, 400, 300, syncTime); 
+                rightBtn.bounceTo(1, 8, 3, 400, syncTime);
+                rightBtn.fadeTo(1, 400, 400, syncTime); 
+                backBtn.bounceTo(1.0, 10, 2.5);
+                backBtn.fadeTo(1, 1000);
+
+                int[] counter = {currentSelectedPlayer};
+                Image[] psimage = {playerSelectorSprite};
                 lastFrameTime = syncTime + 1200;
                 currentSelectedPlayerFrame = 0;
 
@@ -420,81 +427,82 @@ public class MainMenu extends World
             case CurrentMenu.WorldSelector:
             {
                 Image bg = new Image("WorldSelectBG.png", 0, 0);
+                currentMap = new Image("mapPreview/" + currentSelectedWorld + ".png", 0, 0);
+                Button leftWorldBtn = new Button("ButtonLeft.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button rightWorldBtn = new Button("ButtonRight.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+                Button nextBtn = new Button("NextButton.png", 0, true, 0, 0, 3, 1.05, 0.95, nextBtnSounds);
+
+                addUI(bg, 320, 320);
+                addUI(currentMap, 320, 320-6);
+                addUI(leftWorldBtn, 49, 320);
+                addUI(rightWorldBtn, 640-49, 320);
+                addUI(backBtn, 75, 602);
+                addUI(nextBtn, 640-75, 602);
+
+                leftWorldBtn.setOnClick(() -> ChangeCurrentWorld(-1));
+                rightWorldBtn.setOnClick(() -> ChangeCurrentWorld(1));
+                backBtn.setOnClick(() -> SelectPanel(CurrentMenu.SaveMenu));
+                nextBtn.setOnClick(() -> SelectPanel(CurrentMenu.CharacterSelector));
+
+                syncTime = System.currentTimeMillis();
+
                 bg.bounceTo(6, 12, 2.5, 0, syncTime);
                 bg.fadeTo(1, 400, 0, syncTime); 
-                addUI(bg, 320, 320);
-
-                currentMap = new Image("mapPreview/" + currentSelectedWorld + ".png", 0, 0);
                 currentMap.bounceTo(1, 12, 2.5, 150, syncTime);
                 currentMap.fadeTo(1, 400, 150, syncTime); 
-                addUI(currentMap, 320, 320-6);
-
-                Button leftWorldBtn = new Button("ButtonLeft.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                leftWorldBtn.setOnClick(() -> ChangeCurrentWorld(-1));
                 leftWorldBtn.bounceTo(1, 8, 3, 300, syncTime);
                 leftWorldBtn.fadeTo(1, 400, 300, syncTime); 
-                addUI(leftWorldBtn, 49, 320);
-
-                Button rightWorldBtn = new Button("ButtonRight.png", 0, true, 0, 0, 6, 1.05, 0.95);
-                rightWorldBtn.setOnClick(() -> ChangeCurrentWorld(1));
                 rightWorldBtn.bounceTo(1, 8, 3, 400, syncTime);
                 rightWorldBtn.fadeTo(1, 400, 400, syncTime); 
-                addUI(rightWorldBtn, 640-49, 320);
-
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95);
-                backBtn.setOnClick(() -> SelectPanel(CurrentMenu.SaveMenu));
                 backBtn.bounceTo(1.0, 10, 2.5);
                 backBtn.fadeTo(1, 1000);
-                addUI(backBtn, 75, 602);
-
-                Button nextBtn = new Button("NextButton.png", 0, true, 0, 0, 3, 1.05, 0.95);
-                nextBtn.setOnClick(() -> SelectPanel(CurrentMenu.CharacterSelector));
                 nextBtn.bounceTo(1.0, 10, 2.5);
                 nextBtn.fadeTo(1, 1000);
-                addUI(nextBtn, 640-75, 602);
 
                 break;
             }
             case CurrentMenu.Credits:
             {
                 Image bg = new Image("Credits.png", 0, 0);
+                Image creditsAnim = new Image(new String[]{"CreditsAnim1.png", "CreditsAnim2.png", "CreditsAnim3.png", "CreditsAnim4.png", "CreditsAnim5.png", "CreditsAnim6.png", "CreditsAnim7.png", "CreditsAnim8.png"}, 12, 0, 0);
+                Button eyeBtn = new Button("eye.png", 0, true, 200, 0, 1, 1.05, 0.95, ceyeBtnSounds);
+                Button creditsSpritesBtn = new Button("SpritesButton.png", 0, true, 200, 0, 3, 1.05, 0.95, creditsBtnSounds);
+                Button creditsAudioBtn = new Button("AudioButton.png", 0, true, 200, 0, 3, 1.05, 0.95, creditsBtnSounds);
+                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+
+                addUI(bg, 320, 320);
+                addUI(creditsAnim, 320, 320);
+                addUI(eyeBtn, 176, 178);
+                addUI(creditsSpritesBtn, 219, 435);
+                addUI(creditsAudioBtn, 420, 435);
+                addUI(backBtn, 75, 602);
+
+                eyeBtn.setOnClick(() -> {try {Desktop.getDesktop().browse(new URI("https://ceyedev.com"));} catch (Exception e) {e.printStackTrace();}});
+                creditsSpritesBtn.setOnClick(() -> {try {Desktop.getDesktop().open(new File("credits/sprites.txt"));} catch (Exception  e) {e.printStackTrace();}});
+                creditsAudioBtn.setOnClick(() -> {try {Desktop.getDesktop().open(new File("credits/audio.txt"));} catch (Exception  e) {e.printStackTrace();}});
+                backBtn.setOnClick(() -> SelectPanel(CurrentMenu.MainMenu));
+
+                syncTime = System.currentTimeMillis();
+
                 bg.fadeTo(1, 400, 0, syncTime);
                 bg.bounceTo(1.0, 15, 2.5, 0, syncTime);
-                addUI(bg, 320, 320);
-
-                Image creditsAnim = new Image(new String[]{"CreditsAnim1.png", "CreditsAnim2.png", "CreditsAnim3.png", "CreditsAnim4.png", "CreditsAnim5.png", "CreditsAnim6.png", "CreditsAnim7.png", "CreditsAnim8.png"}, 12, 0, 0);
                 creditsAnim.fadeTo(1, 400, 0, syncTime);  
                 creditsAnim.bounceTo(1.0, 15, 2.5, 0, syncTime);
-                addUI(creditsAnim, 320, 320);
-
-                Button eyeBtn = new Button("eye.png", 0, true, 200, 0, 1, 1.05, 0.95);
-                eyeBtn.setOnClick(() -> {try {Desktop.getDesktop().browse(new URI("https://ceyedev.com"));} catch (Exception e) {e.printStackTrace();}});
                 eyeBtn.bounceTo(1.0, 6, 3, 0, syncTime);
                 eyeBtn.fadeTo(1, 600, 0, syncTime);
-                addUI(eyeBtn, 176, 178);
-
-                Button creditsSpritesBtn = new Button("SpritesButton.png", 0, true, 200, 0, 3, 1.05, 0.95);
-                creditsSpritesBtn.setOnClick(() -> {try {Desktop.getDesktop().open(new File("credits/sprites.txt"));} catch (Exception  e) {e.printStackTrace();}});
                 creditsSpritesBtn.bounceTo(1.0, 10, 2.5, 350, syncTime);
                 creditsSpritesBtn.fadeTo(1, 400, 350, syncTime);
-                addUI(creditsSpritesBtn, 219, 435);
-
-                Button creditsAudioBtn = new Button("AudioButton.png", 0, true, 200, 0, 3, 1.05, 0.95);
-                creditsAudioBtn.setOnClick(() -> {try {Desktop.getDesktop().open(new File("credits/audio.txt"));} catch (Exception  e) {e.printStackTrace();}});
                 creditsAudioBtn.bounceTo(1.0, 10, 2.5, 550, syncTime);
                 creditsAudioBtn.fadeTo(1, 400, 550, syncTime);
-                addUI(creditsAudioBtn, 420, 435);
-
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95);
-                backBtn.setOnClick(() -> SelectPanel(CurrentMenu.MainMenu));
                 backBtn.bounceTo(1.0, 10, 2.5);
                 backBtn.fadeTo(1, 1000);
-                addUI(backBtn, 75, 602);
 
                 break;
             }
             case CurrentMenu.SaveMenu:
             {
+                syncTime = System.currentTimeMillis();
                 boolean[] saveActive = new boolean[]{true, true, false};
 
                 for (int i = 0; i < 3; i++) {
@@ -514,13 +522,12 @@ public class MainMenu extends World
                         name.bounceTo(4.0, 15, 2.5, 150 + 100*i, syncTime);
                         addUI(name, 126+ 4*28, 194+i*120);
 
-                        Button editBtn = new Button("SaveEdit.png", 0, true, 0, 0, 4, 1.05, 0.95);
-                        //editBtn.setOnClick(() -> {try {Desktop.getDesktop().open(new File("credits/audio.txt"));} catch (Exception  e) {e.printStackTrace();}});
+                        Button editBtn = new Button("SaveEdit.png", 0, true, 0, 0, 4, 1.05, 0.95, nextBtnSounds);
                         editBtn.fadeTo(1, 400, 300 + 100*i, syncTime);
                         editBtn.bounceTo(1, 10, 2.5, 300 + 100*i, syncTime);
                         addUI(editBtn, 454, 196+i*120);
 
-                        Button startBtn = new Button("SaveStart.png", 0, true, 0, 0, 4, 1.05, 0.95);
+                        Button startBtn = new Button("SaveStart.png", 0, true, 0, 0, 4, 1.05, 0.95, startBtnSounds);
                         startBtn.setOnClick(() -> Greenfoot.setWorld(new GameWorld(currentSelectedPlayer, currentSelectedWorld)));
                         startBtn.fadeTo(1, 400, 400 + 100*i, syncTime);
                         startBtn.bounceTo(1, 10, 2.5, 400 + 100*i, syncTime);
@@ -531,16 +538,15 @@ public class MainMenu extends World
                         name.bounceTo(4.0, 15, 2.5, 150 + 100*i, syncTime);
                         addUI(name, 126+ 4*28, 194+i*120);
 
-                        Button newGame = new Button("NewSave.png", 0, true, 0, 0, 4, 1.05, 0.95);
+                        Button newGame = new Button("NewSave.png", 0, true, 0, 0, 4, 1.05, 0.95, nextBtnSounds);
                         newGame.setOnClick(() -> SelectPanel(CurrentMenu.WorldSelector));
                         newGame.bounceTo(1, 10, 2.5, 300 + 100*i, syncTime);
                         newGame.fadeTo(1, 400, 300 + 100*i, syncTime);
                         addUI(newGame, 452 - 4*5, 196+i*120);
                     }
-
                 }
 
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95);
+                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
                 backBtn.setOnClick(() -> SelectPanel(CurrentMenu.MainMenu));
                 backBtn.bounceTo(1.0, 10, 2.5);
                 backBtn.fadeTo(1, 1000);

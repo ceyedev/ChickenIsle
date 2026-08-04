@@ -1,5 +1,3 @@
-Audio used in this game:
-
-Music:
-
-SFX:
+sfx used in this game:
+- UI sounds from: https://uisfx.com/
+- Boot Sound from: https://opengameart.org/content/start-sounds-2

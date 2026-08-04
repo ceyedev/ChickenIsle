@@ -22,18 +22,24 @@ public class Button extends Image
 
     private boolean mouseOver;
     private boolean pressed;
+    private boolean didPress;
     private boolean bouncing;
 
     private Runnable onClickAction;
     private Runnable delayedAction;
     private long actionTime;
 
-    public Button(String imageFile, int alpha, boolean canClick, int clickDelay, double startScale, double scaleFactor, double hoverScaleFactor, double pressScaleFactor)
+    private String hoverStartSound;
+    private String hoverEndSound;
+    private String clickStartSound;
+    private String clickEndSound;
+
+    public Button(String imageFile, int alpha, boolean canClick, int clickDelay, double startScale, double scaleFactor, double hoverScaleFactor, double pressScaleFactor, String[] sounds)
     {
-        this(new GreenfootImage(imageFile), alpha, canClick, clickDelay, startScale, scaleFactor, hoverScaleFactor, pressScaleFactor);
+        this(new GreenfootImage(imageFile), alpha, canClick, clickDelay, startScale, scaleFactor, hoverScaleFactor, pressScaleFactor, sounds);
     }
 
-    public Button(GreenfootImage image, int alpha, boolean canClick, int clickDelay, double startScale, double scaleFactor, double hoverScaleFactor, double pressScaleFactor)
+    public Button(GreenfootImage image, int alpha, boolean canClick, int clickDelay, double startScale, double scaleFactor, double hoverScaleFactor, double pressScaleFactor, String[] sounds)
     {
         super(image, startScale, alpha);
         this.canClick = canClick;
@@ -43,6 +49,10 @@ public class Button extends Image
         this.targetScale = normalScale;
         this.hoverScale = normalScale * hoverScaleFactor;
         this.pressScale = normalScale * pressScaleFactor;
+        this.hoverStartSound = sounds.length > 0 ? sounds[0] : null;
+        this.hoverEndSound = sounds.length > 1 ? sounds[1] : null;
+        this.clickStartSound = sounds.length > 2 ? sounds[2] : null;
+        this.clickEndSound = sounds.length > 3 ? sounds[3] : null;
         setExternalScale(currentScale);
     }
 
@@ -80,6 +90,9 @@ public class Button extends Image
 
         if (pressed && Greenfoot.mouseClicked(this)) {
             pressed = false;
+            didPress = true;
+            if (clickEndSound != null) Greenfoot.playSound(clickEndSound);
+
             if (onClickAction != null) {
                 if (clickDelay > 0) {
                     delayedAction = onClickAction;
@@ -101,9 +114,11 @@ public class Button extends Image
         if (!pressed) {
             if (over && !mouseOver) {
                 mouseOver = true;
+                if (!didPress && hoverEndSound != null) Greenfoot.playSound(hoverEndSound);
                 startTransition(hoverScale, hoverFrames, false);
             } else if (!over && mouseOver) {
                 mouseOver = false;
+                didPress = false;
                 startTransition(normalScale, hoverFrames, false);
             }
         }

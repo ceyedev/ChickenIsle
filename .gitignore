@@ -11,3 +11,7 @@ Thumbs.db
 
 .idea/
 .vscode/
+
+images/aseprite/
+images/UI/
+images/tileCreator.html
