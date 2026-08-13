@@ -50,13 +50,13 @@ public class WorldManager
                 stack.setMaskType(0);
                 gen.setZoneProvider(stack);
                 
-                ruleTiles.put(-1, Map.entry(new RuleTile("blue", 16), Color.BLUE));
-                ruleTiles.put(0, Map.entry(new RuleTile("green", 16), Color.GREEN));
-                ruleTiles.put(1, Map.entry(new RuleTile("white", 16), Color.WHITE));
-                ruleTiles.put(2, Map.entry(new RuleTile("red", 16), Color.RED));
-                ruleTiles.put(3, Map.entry(new RuleTile("yellow", 16), Color.YELLOW));
-                ruleTiles.put(4, Map.entry(new RuleTile("purple", 16), Color.PINK));
-                ruleTiles.put(10, Map.entry(new RuleTile("blue", 16), Color.BLUE));
+                ruleTiles.put(-1, Map.entry(new RuleTile("water/tilemap", 16), Color.BLUE));
+                ruleTiles.put(0, Map.entry(new RuleTile("green-grass/tilemap", 16), Color.GREEN));
+                ruleTiles.put(1, Map.entry(new RuleTile("snow/tilemap", 16), Color.WHITE));
+                ruleTiles.put(2, Map.entry(new RuleTile("orange-grass/tilemap", 16), Color.RED));
+                ruleTiles.put(3, Map.entry(new RuleTile("sand/tilemap", 16), Color.YELLOW));
+                ruleTiles.put(4, Map.entry(new RuleTile("weird/tilemap", 16), Color.PINK));
+                ruleTiles.put(10, Map.entry(new RuleTile("water/tilemap", 16), Color.BLUE));
 
                 break;
             }
@@ -70,8 +70,8 @@ public class WorldManager
                 stack.setMaskType(0);
                 gen.setZoneProvider(stack);
                 
-                ruleTiles.put(-1, Map.entry(new RuleTile("blue", 16), Color.BLUE));
-                ruleTiles.put(0, Map.entry(new RuleTile("green", 16), Color.GREEN));
+                ruleTiles.put(-1, Map.entry(new RuleTile("water/tilemap", 16), Color.BLUE));
+                ruleTiles.put(0, Map.entry(new RuleTile("green-grass/tilemap", 16), Color.GREEN));
 
                 break;
             }

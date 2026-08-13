@@ -10,27 +10,27 @@ import java.net.URI;
 public class MainMenu extends World
 {
     private double baseSpeed = 2.0;
-    private String emptyImagePath = "Parallax/empty.png";
+    private String emptyImagePath = "UI/Parallax/empty.png";
 
     private static Config[] configurations = {
         new Config(
-            new String[]{"Parallax/snow/1.png", "Parallax/snow/2.png", null, null, null},
+            new String[]{"UI/Parallax/snow/1.png", "UI/Parallax/snow/2.png", null, null, null},
             new double[]{0.3, 0.8, 0, 0, 0}
         ),
         new Config(
-            new String[]{"Parallax/ocean/1.png", "Parallax/ocean/2.png", "Parallax/ocean/3.png", "Parallax/ocean/4.png", null},
+            new String[]{"UI/Parallax/ocean/1.png", "UI/Parallax/ocean/2.png", "UI/Parallax/ocean/3.png", "UI/Parallax/ocean/4.png", null},
             new double[]{0.2, 0.25, 0.4, 0.6, 0}
         ),
         new Config(
-            new String[]{"Parallax/nature/1.png", "Parallax/nature/2.png", "Parallax/nature/3.png", "Parallax/nature/4.png", null},
+            new String[]{"UI/Parallax/nature/1.png", "UI/Parallax/nature/2.png", "UI/Parallax/nature/3.png", "UI/Parallax/nature/4.png", null},
             new double[]{0.2, 0.3, 0.5, 0.8, 0}
         ),
         new Config(
-            new String[]{"Parallax/mountain/1.png", "Parallax/mountain/2.png", "Parallax/mountain/3.png", "Parallax/mountain/4.png", "Parallax/mountain/5.png"},
+            new String[]{"UI/Parallax/mountain/1.png", "UI/Parallax/mountain/2.png", "UI/Parallax/mountain/3.png", "UI/Parallax/mountain/4.png", "UI/Parallax/mountain/5.png"},
             new double[]{0.1, 0.2, 0.25, 0.3, 0.5}
         ),
         new Config(
-            new String[]{"Parallax/sunset/1.png", "Parallax/sunset/2.png", null, null, null},
+            new String[]{"UI/Parallax/sunset/1.png", "UI/Parallax/sunset/2.png", null, null, null},
             new double[]{0.2, 0.4, 0, 0, 0}
         ),
     };
@@ -227,7 +227,7 @@ public class MainMenu extends World
 
             String[] frameNames = new String[]{"b", "l", "t", "r"};
 
-            playerSelectorSprite.setImage("Player/" + currentSelectedPlayer + "/i" + frameNames[currentSelectedPlayerFrame] + "1.png");
+            playerSelectorSprite.setImage("Game/Player/" + currentSelectedPlayer + "/i" + frameNames[currentSelectedPlayerFrame] + "1.png");
 
             GreenfootImage playerSelectorImg = playerSelectorSprite.getImage();
             if (playerSelectorImg != null) playerSelectorImg.scale(playerSelectorImg.getWidth() * 6, playerSelectorImg.getHeight() * 6);
@@ -242,7 +242,7 @@ public class MainMenu extends World
         else if (currentSelectedPlayer == 7) currentSelectedPlayer = 1;
 
         String[] frameNames = new String[]{"b", "l", "t", "r"};
-        playerSelectorSprite.setImage("Player/" + currentSelectedPlayer + "/i" + frameNames[currentSelectedPlayerFrame] + "1.png");
+        playerSelectorSprite.setImage("Game/Player/" + currentSelectedPlayer + "/i" + frameNames[currentSelectedPlayerFrame] + "1.png");
         GreenfootImage playerSelectorImg = playerSelectorSprite.getImage();
         playerSelectorSprite.SetFrames(playerSelectorImg);
         if (playerSelectorImg != null) playerSelectorImg.scale(playerSelectorImg.getWidth() * 6, playerSelectorImg.getHeight() * 6);
@@ -282,8 +282,8 @@ public class MainMenu extends World
         switch (newMenu) {
             case CurrentMenu.ClickToEnter:
             {
-                Image bg = new Image("BootAnim/BlackBG.png", 1, 0.2);
-                Button startBtn = new Button("BootAnim/TapToFocus.png", 1, true, 1, 1, 1, 1, 1, quietBtnSounds);
+                Image bg = new Image("UI/Boot/BlackBG.png", 1, 0.2);
+                Button startBtn = new Button("UI/Boot/TapToFocus.png", 1, true, 1, 1, 1, 1, 1, quietBtnSounds);
 
                 addUI(bg, 320, 320);
                 addUI(startBtn, 320, 320);
@@ -295,17 +295,17 @@ public class MainMenu extends World
             }
             case CurrentMenu.BootScreen:
             {
-                Image bg = new Image("BootAnim/BlackBG.png", 1, 0.2);
-                Image Outline = new Image("BootAnim/Outline.png", 4, 0);
-                Image Cloud = new Image("BootAnim/Cloud.png", 0, 0);
-                Image Title = new Image("BootAnim/Title.png", 0.5, 0);
-                Image ChickenText = new Image("BootAnim/ChickenText.png", 5, 0);
-                Image IsleText = new Image("BootAnim/IsleText.png", 5, 0);
-                Image WingShadow = new Image("BootAnim/WingShadow.png", 0, 0);
-                Image Wing = new Image("BootAnim/Wing.png", 2, 0);
-                Image TapToStart = new Image("BootAnim/TapToStart.png", 0.95, 0);
-                Image Crown = new Image("BootAnim/Crown.png", 0, 0);
-                Button startBtn = new Button("BootAnim/BlackBG.png", 0, true, 0, 1, 1, 1, 1, bootBtnSounds);
+                Image bg = new Image("UI/Boot/BlackBG.png", 1, 0.2);
+                Image Outline = new Image("UI/Boot/Outline.png", 4, 0);
+                Image Cloud = new Image("UI/Boot/Cloud.png", 0, 0);
+                Image Title = new Image("UI/Boot/Title.png", 0.5, 0);
+                Image ChickenText = new Image("UI/Boot/ChickenText.png", 5, 0);
+                Image IsleText = new Image("UI/Boot/IsleText.png", 5, 0);
+                Image WingShadow = new Image("UI/Boot/WingShadow.png", 0, 0);
+                Image Wing = new Image("UI/Boot/Wing.png", 2, 0);
+                Image TapToStart = new Image("UI/Boot/TapToStart.png", 0.95, 0);
+                Image Crown = new Image("UI/Boot/Crown.png", 0, 0);
+                Button startBtn = new Button("UI/Boot/BlackBG.png", 0, true, 0, 1, 1, 1, 1, bootBtnSounds);
 
                 addUI(bg, 320, 320);
                 addUI(Outline, 320, 180);
@@ -347,10 +347,10 @@ public class MainMenu extends World
             }
             case CurrentMenu.MainMenu:
             {
-                Image bg = new Image("MainMenuBG.png", 0, 0);
-                Button playBtn = new Button("PlayButton.png", 0, true, 0, 0, 6, 1.05, 0.95, playBtnSounds);
-                Button optionsBtn = new Button("OptionsButton.png", 0, true, 200, 0, 6, 1.05, 0.95, nextBtnSounds);
-                Button creditsBtn = new Button("CreditsButton.png", 0, true, 0, 0, 6, 1.05, 0.95, nextBtnSounds);
+                Image bg = new Image("UI/Panel/MainMenuBG.png", 0, 0);
+                Button playBtn = new Button("UI/Button/Play.png", 0, true, 0, 0, 6, 1.05, 0.95, playBtnSounds);
+                Button optionsBtn = new Button("UI/Button/Options.png", 0, true, 200, 0, 6, 1.05, 0.95, nextBtnSounds);
+                Button creditsBtn = new Button("UI/Button/Credits.png", 0, true, 0, 0, 6, 1.05, 0.95, nextBtnSounds);
 
                 addUI(bg, 320, 320);
                 addUI(playBtn, 320, 200);
@@ -376,14 +376,14 @@ public class MainMenu extends World
             }
             case CurrentMenu.CharacterSelector:
             {
-                Image bg = new Image("CharacterSelector.png", 0, 0);
-                Image csnBg = new Image("CharacterSelectorNature.png", 0, 0);
-                playerSelectorIndex = new Image("SelectedCharacterIndexActive.png", 6, 0);
-                playerSelectorSprite = new Image("Player/" + currentSelectedPlayer + "/ib1.png", 0, 0);
-                Button selectBtn = new Button("SelectButton.png", 0, true, 0, 0, 6, 1.05, 0.95, startBtnSounds);
-                Button leftBtn = new Button("ButtonLeft.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
-                Button rightBtn = new Button("ButtonRight.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+                Image bg = new Image("UI/Panel/CharacterSelectorBG.png", 0, 0);
+                Image csnBg = new Image("UI/Misc/CharacterSelectorBG.png", 0, 0);
+                playerSelectorIndex = new Image("UI/Misc/Indicator.png", 6, 0);
+                playerSelectorSprite = new Image("Game/Player/" + currentSelectedPlayer + "/ib1.png", 0, 0);
+                Button selectBtn = new Button("UI/Button/Select.png", 0, true, 0, 0, 6, 1.05, 0.95, startBtnSounds);
+                Button leftBtn = new Button("UI/Button/Left.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button rightBtn = new Button("UI/Button/Right.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button backBtn = new Button("UI/Button/Back.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
 
                 addUI(bg, 320, 320);
                 addUI(csnBg, 320, 275);
@@ -426,12 +426,12 @@ public class MainMenu extends World
             }
             case CurrentMenu.WorldSelector:
             {
-                Image bg = new Image("WorldSelectBG.png", 0, 0);
+                Image bg = new Image("UI/Panel/WorldSelectBG.png", 0, 0);
                 currentMap = new Image("mapPreview/" + currentSelectedWorld + ".png", 0, 0);
-                Button leftWorldBtn = new Button("ButtonLeft.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
-                Button rightWorldBtn = new Button("ButtonRight.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
-                Button nextBtn = new Button("NextButton.png", 0, true, 0, 0, 3, 1.05, 0.95, nextBtnSounds);
+                Button leftWorldBtn = new Button("UI/Button/Left.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button rightWorldBtn = new Button("UI/Button/Right.png", 0, true, 0, 0, 6, 1.05, 0.95, normalBtnSounds);
+                Button backBtn = new Button("UI/Button/Back.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+                Button nextBtn = new Button("UI/Button/Next.png", 0, true, 0, 0, 3, 1.05, 0.95, nextBtnSounds);
 
                 addUI(bg, 320, 320);
                 addUI(currentMap, 320, 320-6);
@@ -464,12 +464,13 @@ public class MainMenu extends World
             }
             case CurrentMenu.Credits:
             {
-                Image bg = new Image("Credits.png", 0, 0);
-                Image creditsAnim = new Image(new String[]{"CreditsAnim1.png", "CreditsAnim2.png", "CreditsAnim3.png", "CreditsAnim4.png", "CreditsAnim5.png", "CreditsAnim6.png", "CreditsAnim7.png", "CreditsAnim8.png"}, 12, 0, 0);
-                Button eyeBtn = new Button("eye.png", 0, true, 200, 0, 1, 1.05, 0.95, ceyeBtnSounds);
-                Button creditsSpritesBtn = new Button("SpritesButton.png", 0, true, 200, 0, 3, 1.05, 0.95, creditsBtnSounds);
-                Button creditsAudioBtn = new Button("AudioButton.png", 0, true, 200, 0, 3, 1.05, 0.95, creditsBtnSounds);
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+                Image bg = new Image("UI/Panel/CreditsBG.png", 0, 0);
+                String basePath = "UI/Animations/Credits/";
+                Image creditsAnim = new Image(new String[]{basePath + "1.png", basePath + "2.png", basePath + "3.png", basePath + "4.png", basePath + "5.png", basePath + "6.png", basePath + "7.png", basePath + "8.png"}, 12, 0, 0);
+                Button eyeBtn = new Button("UI/Misc/Eye.png", 0, true, 200, 0, 1, 1.05, 0.95, ceyeBtnSounds);
+                Button creditsSpritesBtn = new Button("UI/Button/Sprites.png", 0, true, 200, 0, 3, 1.05, 0.95, creditsBtnSounds);
+                Button creditsAudioBtn = new Button("UI/Button/Audio.png", 0, true, 200, 0, 3, 1.05, 0.95, creditsBtnSounds);
+                Button backBtn = new Button("UI/Button/Back.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
 
                 addUI(bg, 320, 320);
                 addUI(creditsAnim, 320, 320);
@@ -506,7 +507,7 @@ public class MainMenu extends World
                 boolean[] saveActive = new boolean[]{true, true, false};
 
                 for (int i = 0; i < 3; i++) {
-                    Image saveBG = new Image("SaveBG.png", 0, 0);
+                    Image saveBG = new Image("UI/Panel/SaveBG.png", 0, 0);
                     saveBG.fadeTo(1, 400, 100*i, syncTime);
                     saveBG.bounceTo(4.0, 15, 2.5, 100 + 100*i, syncTime);
                     addUI(saveBG, 320, 200+i*120);
@@ -517,28 +518,28 @@ public class MainMenu extends World
                         preview.bounceTo(1.0, 8, 3, 400 + 100*i, syncTime);
                         addUI(preview, 128, 194+i*120);
 
-                        Image name = new Image("Save" + (i+1) + ".png", 0, 0);
+                        Image name = new Image("UI/Text/Save" + (i+1) + ".png", 0, 0);
                         name.fadeTo(1, 400, 150 + 100*i, syncTime);
                         name.bounceTo(4.0, 15, 2.5, 150 + 100*i, syncTime);
                         addUI(name, 126+ 4*28, 194+i*120);
 
-                        Button editBtn = new Button("SaveEdit.png", 0, true, 0, 0, 4, 1.05, 0.95, nextBtnSounds);
+                        Button editBtn = new Button("UI/Button/Edit.png", 0, true, 0, 0, 4, 1.05, 0.95, nextBtnSounds);
                         editBtn.fadeTo(1, 400, 300 + 100*i, syncTime);
                         editBtn.bounceTo(1, 10, 2.5, 300 + 100*i, syncTime);
                         addUI(editBtn, 454, 196+i*120);
 
-                        Button startBtn = new Button("SaveStart.png", 0, true, 0, 0, 4, 1.05, 0.95, startBtnSounds);
+                        Button startBtn = new Button("UI/Button/Start.png", 0, true, 0, 0, 4, 1.05, 0.95, startBtnSounds);
                         startBtn.setOnClick(() -> Greenfoot.setWorld(new GameWorld(currentSelectedPlayer, currentSelectedWorld)));
                         startBtn.fadeTo(1, 400, 400 + 100*i, syncTime);
                         startBtn.bounceTo(1, 10, 2.5, 400 + 100*i, syncTime);
                         addUI(startBtn, 514, 196+i*120);
                     } else {
-                        Image name = new Image("emptySave.png", 0, 0);
+                        Image name = new Image("UI/Text/Empty.png", 0, 0);
                         name.fadeTo(1, 400, 150 + 100*i, syncTime);
                         name.bounceTo(4.0, 15, 2.5, 150 + 100*i, syncTime);
                         addUI(name, 126+ 4*28, 194+i*120);
 
-                        Button newGame = new Button("NewSave.png", 0, true, 0, 0, 4, 1.05, 0.95, nextBtnSounds);
+                        Button newGame = new Button("UI/Button/New.png", 0, true, 0, 0, 4, 1.05, 0.95, nextBtnSounds);
                         newGame.setOnClick(() -> SelectPanel(CurrentMenu.WorldSelector));
                         newGame.bounceTo(1, 10, 2.5, 300 + 100*i, syncTime);
                         newGame.fadeTo(1, 400, 300 + 100*i, syncTime);
@@ -546,7 +547,7 @@ public class MainMenu extends World
                     }
                 }
 
-                Button backBtn = new Button("BackButton.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
+                Button backBtn = new Button("UI/Button/Back.png", 0, true, 0, 0, 3, 1.05, 0.95, backBtnSounds);
                 backBtn.setOnClick(() -> SelectPanel(CurrentMenu.MainMenu));
                 backBtn.bounceTo(1.0, 10, 2.5);
                 backBtn.fadeTo(1, 1000);

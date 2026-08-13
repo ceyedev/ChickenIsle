@@ -2,57 +2,6 @@ import greenfoot.*;
 
 public class PlayerController extends LocalObject
 {
-    GameWorld world;
-    public int playerIndex;
-
-    private int minBounds = 1;
-    private int maxBounds;
-    private int tileSize;
-    private Vector2 offset;
-    private float speed = 5;
-    private float smoothTimeStart = 6;
-    private float walkSnapStrength = 0.04f;
-    private int bounceDuration = 6;
-    private float bounceIntensity = 0.05f;
-
-    private float exactX, exactY;
-    private boolean positionInitialized = false;
-
-    public PlayerController(GameWorld world, int currentSelectedPlayer)
-    {
-        selectPlayer(1);
-        maxBounds = GameManager.worldSize - 2;
-        tileSize = GameManager.tileSize;
-        this.world = world;
-        playerIndex = currentSelectedPlayer;
-        setImage(playerIndex, State.idle, Direction.bottom, 1);
-        offset = new Vector2(15, 15);
-    }
-
-    @Override
-    public void addedToWorld(World world)
-    {
-        super.addedToWorld(world);
-        exactX = getX();
-        exactY = getY();
-        positionInitialized = true;
-    }
-
-    @Override
-    public void setLocation(int x, int y)
-    {
-        super.setLocation(x, y);
-        if (positionInitialized) {
-            exactX = x;
-            exactY = y;
-        }
-    }
-
-    public void selectPlayer(int index)
-    {
-        playerIndex = index;
-    }
-
     public enum Direction {
         bottom, left, right, top
     }
@@ -61,13 +10,29 @@ public class PlayerController extends LocalObject
         idle, walk,
     }
 
+    public int playerIndex;
+    private GameWorld world;
+
+    private int tileSize;
+    private int worldSize;
+    private Vector2 offset;
+
+    private float snapStrength = 0.12f;
+    private boolean isSnapping = false;
+    private Vector2 snapTarget = null;
+    private int baseImageWidth, baseImageHeight;
+    private float exactX, exactY;
+    private boolean positionInitialized = false;
+
     private Direction currentDir = Direction.bottom;
     private State currentState = State.idle;
     private State previousState = State.idle;
 
-    private Vector2 velocity = new Vector2(0, 0);
-    private Vector2 lastInput = new Vector2(0, 0);
-    private float currentSpeed = 0;
+    private float speed = 5;
+    private float smoothTime = 3;
+    private Vector2 velocity = new Vector2();
+    private Vector2 lastInput = new Vector2();
+    private float currentSpeed;
 
     private int fps = 6;
     private int currentFrame = 1;
@@ -75,10 +40,36 @@ public class PlayerController extends LocalObject
     private long lastFrameTime = 0;
     private long frameDuration = 1000 / fps;
 
-    private int bounceTimer = 0;
-    private boolean bounceActive = false;
-    private int baseImageWidth, baseImageHeight;
 
+    public PlayerController(GameWorld world, int currentSelectedPlayer)
+    {
+        this.world = world;
+        playerIndex = currentSelectedPlayer;
+        tileSize = GameManager.tileSize;
+        worldSize = GameManager.worldSize;
+        offset = new Vector2(tileSize / 2.0f, tileSize / 2.0f);
+        selectPlayer(1);
+        setImage(playerIndex, State.idle, Direction.bottom, 1);
+    }
+
+    @Override
+    public void addedToWorld(World world)
+    {
+        super.addedToWorld(world);
+        if (baseImageWidth <= 0 && getImage() != null) {
+            baseImageWidth = getImage().getWidth();
+            baseImageHeight = getImage().getHeight();
+        }
+        exactX = (worldSize / (tileSize * 2)) * tileSize + offset.x;
+        exactY = (worldSize / (tileSize * 2)) * tileSize + offset.y;
+        positionInitialized = true;
+        applyPosition();
+    }
+
+    public void selectPlayer(int index)
+    {
+        playerIndex = index;
+    }
 
     public void act()
     {
@@ -95,8 +86,6 @@ public class PlayerController extends LocalObject
         }
 
         setImage(playerIndex, currentState, currentDir, currentFrame);
-
-        if (bounceActive && bounceTimer > 0) applyBounceEffect();
     }
 
     private void processInput()
@@ -112,25 +101,28 @@ public class PlayerController extends LocalObject
         boolean hasInput = (rawX != 0 || rawY != 0);
 
         if (hasInput) {
+            isSnapping = false;
+            snapTarget = null;
+        } else if (!hasInput && previousState == State.walk) {
+            isSnapping = true;
+            snapTarget = getTileCenter(exactX, exactY);
+        }
+
+        if (hasInput) {
             if (rawX < 0) currentDir = Direction.left;
             else if (rawX > 0) currentDir = Direction.right;
             else if (rawY < 0) currentDir = Direction.top;
             else if (rawY > 0) currentDir = Direction.bottom;
 
             currentState = State.walk;
-            currentSpeed += speed / smoothTimeStart;
-            if (currentSpeed > speed) currentSpeed = speed;
+            currentSpeed += speed / smoothTime;
 
+            if (currentSpeed > speed) currentSpeed = speed;
             lastInput = new Vector2(rawX, rawY);
         } else {
             currentState = State.idle;
             currentSpeed = 0;
             lastInput = new Vector2(0, 0);
-
-            if (previousState == State.walk && currentState == State.idle) {
-                bounceTimer = bounceDuration;
-                bounceActive = true;
-            }
         }
 
         if (velocity.x != rawX || (velocity.y != rawY && rawX == 0)) {
@@ -140,58 +132,57 @@ public class PlayerController extends LocalObject
         }
 
         if (hasInput && currentSpeed > 0) {
-            float length = (float) Math.sqrt(lastInput.x * lastInput.x + lastInput.y * lastInput.y);
+            float length = (float)Math.sqrt(lastInput.x * lastInput.x + lastInput.y * lastInput.y);
             float normX = lastInput.x / length;
             float normY = lastInput.y / length;
             exactX += normX * currentSpeed;
             exactY += normY * currentSpeed;
         }
 
-        float snapTargetX = snapToGrid(exactX, offset.x);
-        float snapTargetY = snapToGrid(exactY, offset.y);
-
-        if (!hasInput) {
-            exactX = snapTargetX;
-            exactY = snapTargetY;
-            exactX = clamp(exactX, minBounds, maxBounds);
-            exactY = clamp(exactY, minBounds, maxBounds);
-        } else {
-            exactX = lerp(exactX, snapTargetX, walkSnapStrength);
-            exactY = lerp(exactY, snapTargetY, walkSnapStrength);
-        }
-        setLocation(Math.round(exactX), Math.round(exactY));
-
-        if (getY() <= 0) world.startTransition(new Vector2(0, 1));
-        else if (getY() >= GameManager.worldSize - 1) world.startTransition(new Vector2(0, -1));
-        else if (getX() <= 0) world.startTransition(new Vector2(1, 0));
-        else if (getX() >= GameManager.worldSize - 1) world.startTransition(new Vector2(-1, 0));
-    }
-
-    private void applyBounceEffect()
-    {
-        bounceTimer--;
-        if (bounceTimer <= 0) {
-            bounceActive = false;
-            return;
+        if (isSnapping && snapTarget != null) {
+            exactX = exactX + (snapTarget.x - exactX) * snapStrength;
+            exactY = exactY + (snapTarget.y - exactY) * snapStrength;
+            if (Math.abs(exactX - snapTarget.x) < 0.001f) exactX = snapTarget.x;
+            if (Math.abs(exactY - snapTarget.y) < 0.001f) exactY = snapTarget.y;
+            if (exactX == snapTarget.x && exactY == snapTarget.y) {
+                isSnapping = false;
+                snapTarget = null;
+            }
         }
 
-        float progress = 1.0f - (float) bounceTimer / bounceDuration;
-        float squashAmount = (float) Math.sin(progress * Math.PI) * bounceIntensity;
-        float scaleX = 1.0f + squashAmount;
-        float scaleY = 1.0f - squashAmount;
+        applyPosition();
 
-        GreenfootImage img = getImage();
-        if (img != null && baseImageWidth > 0 && baseImageHeight > 0) img.scale((int) (baseImageWidth * scaleX), (int) (baseImageHeight * scaleY));
+        int tileCol = Math.round((exactX - offset.x) / tileSize);
+        int tileRow = Math.round((exactY - offset.y) / tileSize);
+
+        if (getY() <= 0 || getY() >= worldSize - 1 || getX() <= 0 || getX() >= worldSize - 1) {
+            exactY = clamp(exactY, tileSize, worldSize + tileSize - 1);
+            exactX = clamp(exactX, tileSize, worldSize + tileSize - 1);
+
+            if (getY() <= 0 || getY() >= worldSize - 1) {
+                world.startTransition(new Vector2(0, getY() <= 0 ? 1 : -1));
+                exactY = tileSize + (getY() <= 0 ? (- 2 + worldSize) : 1);
+            } else {
+                world.startTransition(new Vector2(getX() <= 0 ? 1 : -1, 0));
+                exactX = tileSize + (getX() <= 0 ? (- 2 + worldSize) : 1);
+            }
+        }
     }
 
-    private float snapToGrid(float value, float off)
+    private Vector2 getTileCenter(float x, float y)
     {
-        return Math.round((value - off) / tileSize) * tileSize + off;
+        int tileX = Math.round((x - offset.x) / tileSize);
+        int tileY = Math.round((y - offset.y) / tileSize);
+        return new Vector2(tileX * tileSize + offset.x, tileY * tileSize + offset.y);
     }
 
-    private float lerp(float a, float b, float t)
+    private void applyPosition()
     {
-        return a + (b - a) * t;
+        int w = baseImageWidth > 0 ? baseImageWidth : (getImage() != null ? getImage().getWidth() : 0);
+        int h = baseImageHeight > 0 ? baseImageHeight : (getImage() != null ? getImage().getHeight() : 0);
+        int drawX = Math.round(exactX) - w / 2;
+        int drawY = Math.round(exactY) - h / 2;
+        setLocation(drawX, drawY);
     }
 
     private float clamp(float value, float min, float max)
@@ -203,7 +194,7 @@ public class PlayerController extends LocalObject
 
     public void setImage(int index, State state, Direction direction, int frame)
     {
-        String imagePath = "Player/" + index + "/" + state.toString().charAt(0) + direction.toString().charAt(0) + frame + ".png";
+        String imagePath = "Game/Player/" + index + "/" + state.toString().charAt(0) + direction.toString().charAt(0) + frame + ".png";
         setImage(imagePath);
 
         GreenfootImage img = getImage();
@@ -211,6 +202,10 @@ public class PlayerController extends LocalObject
             img.scale(img.getWidth() * 2, img.getHeight() * 2);
             baseImageWidth = img.getWidth();
             baseImageHeight = img.getHeight();
+        }
+
+        if (positionInitialized) {
+            applyPosition();
         }
     }
 }

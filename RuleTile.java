@@ -53,7 +53,7 @@ public class RuleTile
 
     public RuleTile(String tilesetName, int tileSize)
     {
-        GreenfootImage sheet = new GreenfootImage("Tilesets/" + tilesetName + ".png");
+        GreenfootImage sheet = new GreenfootImage("Game/Tiles/" + tilesetName + ".png");
 
         cornerUL = getTileSprite(sheet, 0, 0, tileSize);
         flatT = getTileSprite(sheet, 1, 0, tileSize);

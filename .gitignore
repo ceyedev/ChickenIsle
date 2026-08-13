@@ -13,5 +13,10 @@ Thumbs.db
 .vscode/
 
 images/aseprite/
-images/UI/
+images/UIAll/
 images/tileCreator.html
+
+images/Game/Tiles/TilemapConstructor.bat
+images/Game/Tiles/TilemapConstructor.html
+images/Game/Tiles/errortile.png
+images/Game/Tiles/debug.png
